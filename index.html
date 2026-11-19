@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Poker Vision Quant Cockpit — Cổng Truy Cập Chính Thức</title>
+  <title>Poker Multiway Quant Solver — Cổng Truy Cập Chính Thức</title>
   <style>
     :root {
       --bg-main: #070b12;
@@ -16,275 +16,90 @@
       --accent-green-bg: rgba(16, 185, 129, 0.14);
       --accent-cyan: #06b6d4;
       --accent-gold: #f59e0b;
-      --accent-red: #f43f5e;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body {
-      width: 100%;
-      height: 100%;
-      background: var(--bg-main);
-      color: var(--text-main);
+      width: 100%; height: 100%;
+      background: var(--bg-main); color: var(--text-main);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
       overflow: hidden;
     }
 
-    /* TOP PORTAL HEADER (38px slim bar, zero scroll) */
     .portal-header {
       height: 38px;
       background: var(--bg-card);
       border-bottom: 1px solid var(--border-color);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 12px;
-      gap: 10px;
-      font-size: 12px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 12px; gap: 10px; font-size: 12px;
     }
-
-    .brand-group {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      min-width: 0;
-    }
-
+    .brand-group { display: flex; align-items: center; gap: 8px; min-width: 0; }
     .brand-logo {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
+      width: 24px; height: 24px; border-radius: 50%;
       background: linear-gradient(135deg, #059669, #10b981);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 11px;
-      color: #fff;
-      box-shadow: 0 0 10px rgba(16, 185, 129, 0.35);
-      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 11px; color: #fff;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.35); flex-shrink: 0;
     }
-
-    .brand-title {
-      font-weight: 800;
-      letter-spacing: 0.4px;
-      color: var(--text-main);
-      white-space: nowrap;
-    }
+    .brand-title { font-weight: 800; letter-spacing: 0.4px; white-space: nowrap; }
 
     .status-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 2px 8px;
-      border-radius: 999px;
-      font-size: 11px;
-      font-weight: 700;
-      background: var(--accent-green-bg);
-      color: var(--accent-green);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      white-space: nowrap;
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 700;
+      background: var(--accent-green-bg); color: var(--accent-green);
+      border: 1px solid rgba(16, 185, 129, 0.3); white-space: nowrap;
     }
-
-    .status-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--accent-green);
-      box-shadow: 0 0 6px var(--accent-green);
-    }
-
-    .status-pill.syncing {
-      background: rgba(245, 158, 11, 0.14);
-      color: var(--accent-gold);
-      border-color: rgba(245, 158, 11, 0.35);
-    }
-    .status-pill.syncing .status-dot {
-      background: var(--accent-gold);
-      box-shadow: 0 0 6px var(--accent-gold);
-    }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent-green); box-shadow: 0 0 6px var(--accent-green); }
+    .status-pill.syncing { background: rgba(245, 158, 11, 0.14); color: var(--accent-gold); border-color: rgba(245, 158, 11, 0.35); }
+    .status-pill.syncing .status-dot { background: var(--accent-gold); box-shadow: 0 0 6px var(--accent-gold); }
 
     .clip-toast {
-      font-size: 11px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      color: var(--accent-cyan);
-      background: rgba(6, 182, 212, 0.12);
-      border: 1px solid rgba(6, 182, 212, 0.3);
-      border-radius: 6px;
-      padding: 2px 8px;
-      display: none;
-      white-space: nowrap;
+      font-size: 11px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      color: var(--accent-cyan); background: rgba(6, 182, 212, 0.12);
+      border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 6px;
+      padding: 2px 8px; display: none; white-space: nowrap;
     }
 
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      flex-shrink: 0;
-    }
-
+    .header-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
     .clock-pill {
       font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: 11px;
-      color: var(--text-muted);
-      background: var(--bg-row);
-      border: 1px solid var(--border-color);
-      border-radius: 6px;
-      padding: 3px 8px;
+      font-size: 11px; color: var(--text-muted); background: var(--bg-row);
+      border: 1px solid var(--border-color); border-radius: 6px; padding: 3px 8px;
     }
-
     .btn {
-      appearance: none;
-      background: var(--bg-row);
-      color: var(--text-main);
-      border: 1px solid var(--border-color);
-      border-radius: 6px;
-      padding: 4px 10px;
-      font-size: 11px;
-      font-weight: 700;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      transition: border-color 0.15s, background 0.15s;
+      appearance: none; background: var(--bg-row); color: var(--text-main);
+      border: 1px solid var(--border-color); border-radius: 6px;
+      padding: 4px 10px; font-size: 11px; font-weight: 700; cursor: pointer;
+      text-decoration: none; display: inline-flex; align-items: center; gap: 4px;
     }
-    .btn:hover {
-      border-color: var(--accent-green);
-      background: #142036;
-    }
-    .btn-primary {
-      background: rgba(16, 185, 129, 0.16);
-      border-color: rgba(16, 185, 129, 0.45);
-      color: #6ee7b7;
-    }
+    .btn:hover { border-color: var(--accent-green); background: #142036; }
 
-    /* MAIN VIEWPORT */
-    .viewport-wrap {
-      position: relative;
-      width: 100vw;
-      height: calc(100vh - 38px);
-      background: var(--bg-main);
-    }
-
-    .cockpit-frame {
-      width: 100%;
-      height: 100%;
-      border: none;
-      display: none;
-      background: var(--bg-main);
-    }
+    .viewport-wrap { position: relative; width: 100vw; height: calc(100vh - 38px); background: var(--bg-main); }
+    .cockpit-frame { width: 100%; height: 100%; border: none; display: none; background: var(--bg-main); }
 
     .loader-screen {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 20px;
-      background: var(--bg-main);
-      z-index: 5;
+      position: absolute; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center;
+      padding: 20px; background: var(--bg-main); z-index: 5;
     }
-
     .spinner {
-      width: 44px;
-      height: 44px;
-      border: 4px solid rgba(16, 185, 129, 0.2);
-      border-top-color: var(--accent-green);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin-bottom: 16px;
+      width: 44px; height: 44px; border: 4px solid rgba(16, 185, 129, 0.2);
+      border-top-color: var(--accent-green); border-radius: 50%;
+      animation: spin 0.8s linear infinite; margin-bottom: 16px;
     }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .loader-title {
-      font-size: 18px;
-      font-weight: 800;
-      color: var(--accent-green);
-      margin-bottom: 6px;
-    }
-    .loader-sub {
-      font-size: 13px;
-      color: var(--text-muted);
-      max-width: 520px;
-      line-height: 1.45;
-    }
-
-    /* QR MODAL */
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(3, 6, 12, 0.82);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 50;
-    }
-    .modal-backdrop.open {
-      display: flex;
-    }
-    .modal-card {
-      width: min(430px, 92vw);
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
-    }
-    .modal-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 14px;
-      border-bottom: 1px solid var(--border-color);
-      font-weight: 800;
-      font-size: 13px;
-      color: var(--accent-green);
-    }
-    .modal-body {
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      text-align: center;
-    }
-    .qr-img {
-      width: 220px;
-      height: 220px;
-      background: #fff;
-      padding: 6px;
-      border-radius: 8px;
-    }
-    .qr-url {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: 12px;
-      color: var(--accent-cyan);
-      word-break: break-all;
-    }
-    .qr-note {
-      font-size: 11px;
-      color: var(--text-muted);
-      line-height: 1.45;
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loader-title { font-size: 18px; font-weight: 800; color: var(--accent-green); margin-bottom: 6px; }
+    .loader-sub { font-size: 13px; color: var(--text-muted); max-width: 520px; line-height: 1.45; }
   </style>
 </head>
 <body>
   <header class="portal-header">
     <div class="brand-group">
-      <div class="brand-logo">PV</div>
-      <span class="brand-title">POKER VISION QUANT COCKPIT</span>
+      <div class="brand-logo">MW</div>
+      <span class="brand-title">POKER MULTIWAY QUANT SOLVER</span>
       <span class="status-pill syncing" id="statusPill">
         <span class="status-dot"></span>
-        <span id="statusText">Đang kết nối Tunnel...</span>
+        <span id="statusText">Đang kết nối Solver...</span>
       </span>
       <span class="clip-toast" id="clipToast"></span>
     </div>
@@ -294,7 +109,6 @@
       <a class="btn" href="https://lemanhnewlife-cmd.github.io/silent-trader/" target="_blank" rel="noopener">
         📈 Silent Trader MT5
       </a>
-      <button class="btn btn-primary" id="btnQrCam" type="button">📲 QR Camera ĐT</button>
       <button class="btn" id="btnReload" type="button">🔄 Đồng bộ lại</button>
       <a class="btn" id="btnOpenDirect" href="#" target="_blank" rel="noopener" style="display:none;">
         ↗ Mở Trực Tiếp
@@ -305,42 +119,24 @@
   <main class="viewport-wrap">
     <div class="loader-screen" id="loader">
       <div class="spinner"></div>
-      <div class="loader-title">POKER VISION QUANT COCKPIT — REAL-TIME GTO</div>
+      <div class="loader-title">POKER MULTIWAY QUANT SOLVER — 6-MAX N-WAY</div>
       <div class="loader-sub" id="statusMsg">
-        Đang kết nối tới Máy Chủ Poker Vision &amp; Numba GTO (≤ 5s/hand)...
+        Đang kết nối tới Máy Chủ Numba Multiway Solver Thời Gian Thực...
       </div>
     </div>
 
     <iframe
       id="cockpitFrame"
       class="cockpit-frame"
-      allow="camera *; microphone *; clipboard-write *; clipboard-read *; display-capture *; fullscreen *"
+      allow="clipboard-write *; clipboard-read *; fullscreen *"
       allowfullscreen
     ></iframe>
   </main>
-
-  <div class="modal-backdrop" id="qrModal">
-    <div class="modal-card">
-      <div class="modal-header">
-        <span>📲 QUÉT QR MỞ CAMERA ĐIỆN THOẠI</span>
-        <button class="btn" id="btnCloseQr" type="button">✕ Đóng</button>
-      </div>
-      <div class="modal-body">
-        <img id="qrImg" class="qr-img" alt="QR Camera Poker" />
-        <div id="qrUrl" class="qr-url"></div>
-        <div class="qr-note">
-          Điện thoại quét mã QR sẽ mở thẳng trang HTTPS <b>trycloudflare.com/?mode=cam</b> (dùng được cả Wi-Fi lẫn 4G/5G, không lỗi chứng chỉ bảo mật khi bật Camera sau).
-        </div>
-      </div>
-    </div>
-  </div>
 
   <script>
     const GIST_API_URL = "https://api.github.com/gists/2bf53bd09bbb0594b5f9440c059b0a88";
     const GIST_RAW_URL = "https://gist.githubusercontent.com/lemanhnewlife-cmd/2bf53bd09bbb0594b5f9440c059b0a88/raw/poker_cockpit_endpoint.json";
     const ENDPOINT_FILE = "poker_cockpit_endpoint.json";
-
-    let currentPublicUrl = "";
 
     function updateVnClock() {
       const now = new Date();
@@ -353,84 +149,61 @@
     setInterval(updateVnClock, 1000);
     updateVnClock();
 
-    function isMobileClient() {
-      const params = new URLSearchParams(window.location.search);
-      if (params.get("mode") === "cam") return true;
-      return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent || "");
-    }
-
     async function fetchEndpoint() {
       try {
         const res = await fetch(GIST_API_URL + "?t=" + Date.now(), { cache: "no-store" });
         if (res.ok) {
           const gist = await res.json();
           const rawContent = gist.files && gist.files[ENDPOINT_FILE] && gist.files[ENDPOINT_FILE].content;
-          if (rawContent) {
-            return JSON.parse(rawContent);
-          }
+          if (rawContent) return JSON.parse(rawContent);
         }
       } catch (_) {}
-
       const rawRes = await fetch(GIST_RAW_URL + "?t=" + Date.now(), { cache: "no-store" });
       if (!rawRes.ok) throw new Error("Gist unavailable");
       return await rawRes.json();
     }
 
-    function setConnectedUI(data) {
-      currentPublicUrl = String(data.public_url || "").replace(/\/+$/, "");
-      const pill = document.getElementById("statusPill");
-      const stText = document.getElementById("statusText");
-      pill.classList.remove("syncing");
-      stText.textContent = `⚡ LIVE (${data.updated_at_vn || "Cloudflare HTTPS"})`;
+    function setConnectedUI(data, forceReload) {
+      const cleanUrl = String(data.public_url || "").replace(/\/+$/, "");
+      document.getElementById("statusPill").classList.remove("syncing");
+      document.getElementById("statusText").textContent = `⚡ LIVE (${data.updated_at_vn || "Cloudflare HTTPS"})`;
 
       const openDirect = document.getElementById("btnOpenDirect");
-      openDirect.href = currentPublicUrl + "/";
+      openDirect.href = cleanUrl + "/";
       openDirect.style.display = "inline-flex";
 
       const frame = document.getElementById("cockpitFrame");
-      if (frame.src !== currentPublicUrl + "/") {
-        frame.src = currentPublicUrl + "/";
-      }
+      const targetSrc = forceReload ? `${cleanUrl}/?t=${Date.now()}` : `${cleanUrl}/`;
+      if (forceReload || frame.src !== `${cleanUrl}/`) frame.src = targetSrc;
       frame.onload = () => {
         document.getElementById("loader").style.display = "none";
         frame.style.display = "block";
       };
-      // Đảm bảo ẩn màn loader sau tối đa 1.8s ngay cả khi tunnel vừa khởi tạo
       setTimeout(() => {
         document.getElementById("loader").style.display = "none";
         frame.style.display = "block";
       }, 1500);
     }
 
-    async function connectToCockpit(forceReload = false) {
+    async function connectToSolver(forceReload = false) {
       const statusMsg = document.getElementById("statusMsg");
       const pill = document.getElementById("statusPill");
       const stText = document.getElementById("statusText");
       try {
         const data = await fetchEndpoint();
         if (data && data.public_url && data.public_url.startsWith("http")) {
-          const cleanUrl = String(data.public_url).replace(/\/+$/, "");
-          // Trên điện thoại hoặc khi mở ?mode=cam -> chuyển thẳng sang miền HTTPS trycloudflare để cấp quyền Camera sau mượt mà
-          if (isMobileClient()) {
-            window.location.replace(cleanUrl + "/?mode=cam");
-            return;
-          }
-          if (forceReload) {
-            document.getElementById("cockpitFrame").src = cleanUrl + "/?t=" + Date.now();
-          }
-          setConnectedUI(data);
+          setConnectedUI(data, forceReload);
           return;
         }
-        statusMsg.textContent = "Chưa thấy URL máy chủ Poker Vision trên Gist, tự động thử lại sau 3 giây...";
+        statusMsg.textContent = "Chưa thấy URL máy chủ Multiway Solver trên Gist, tự thử lại sau 3 giây...";
       } catch (e) {
         pill.classList.add("syncing");
         stText.textContent = "Đang đồng bộ lại...";
-        statusMsg.textContent = "Đang đồng bộ lại luồng Poker Vision Real-time, tự động thử lại sau 3 giây...";
+        statusMsg.textContent = "Đang đồng bộ lại luồng Multiway Solver, tự thử lại sau 3 giây...";
       }
-      setTimeout(() => connectToCockpit(false), 3000);
+      setTimeout(() => connectToSolver(false), 3000);
     }
 
-    // Cầu nối Clipboard từ iframe con -> cửa sổ cha github.io
     window.addEventListener("message", async (ev) => {
       if (!ev || !ev.data || ev.data.type !== "POKER_COPY_CLIPBOARD") return;
       const text = String(ev.data.text || "").trim();
@@ -446,23 +219,8 @@
       } catch (_) {}
     });
 
-    document.getElementById("btnReload").addEventListener("click", () => connectToCockpit(true));
-
-    document.getElementById("btnQrCam").addEventListener("click", () => {
-      const camTarget = currentPublicUrl
-        ? `${currentPublicUrl}/?mode=cam`
-        : "https://lemanhnewlife-cmd.github.io/poker-quant-cockpit/?mode=cam";
-      document.getElementById("qrImg").src =
-        "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" + encodeURIComponent(camTarget);
-      document.getElementById("qrUrl").textContent = camTarget;
-      document.getElementById("qrModal").classList.add("open");
-    });
-
-    document.getElementById("btnCloseQr").addEventListener("click", () => {
-      document.getElementById("qrModal").classList.remove("open");
-    });
-
-    connectToCockpit(false);
+    document.getElementById("btnReload").addEventListener("click", () => connectToSolver(true));
+    connectToSolver(false);
   </script>
 </body>
 </html>
